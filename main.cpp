@@ -1,6 +1,8 @@
 #include <iostream>
-#define NUM_QUIZZES  5
-#define NUM_STUDENTS 5
+#include "interest.h"
+
+#define NUM_QUIZZES  5 //学科成绩数量
+#define NUM_STUDENTS 5 //学生数量
 /**
  *
  *  给定一个含有n个元素的整型数组a，求a中所有元素的和。数组求和(递归方法)
@@ -257,9 +259,9 @@ int main(void) {
 //
 //    Merge(a, b, c, 5);
 
-    studentScoreStatistics();
+//    studentScoreStatistics();
 
-
+    test();
 
 
     return 0;
