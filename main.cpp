@@ -1,5 +1,6 @@
 #include <iostream>
-
+#define NUM_QUIZZES  5
+#define NUM_STUDENTS 5
 /**
  *
  *  给定一个含有n个元素的整型数组a，求a中所有元素的和。数组求和(递归方法)
@@ -11,6 +12,52 @@ int sum(int*a, int n) {
     return n ==0?0 : sum(a, n -1) + a[n -1];
 }
 
+
+/**
+ * 读取一个5×5的整数数组
+ *
+ * 输入每个学生5门测试的成绩，一共有5个学生。然后计算每个学生的总分和平均分，
+ * 以及每门测验的平均分、高分和低分
+ *
+ */
+void studentScoreStatistics(){
+
+    int grades[NUM_STUDENTS][NUM_QUIZZES];
+    int high, low, quiz, student, total;
+
+    for (student = 0; student < NUM_STUDENTS; student++) {
+        printf("Enter grades for student %d: ", student + 1);
+        for (quiz = 0; quiz < NUM_QUIZZES; quiz++)
+            scanf("%d", &grades[student][quiz]);
+    }
+
+    printf("\nStudent  Total  Average\n");
+    for (student = 0; student < NUM_STUDENTS; student++) {
+        printf("%4d      ", student + 1);
+        total = 0;
+        for (quiz = 0; quiz < NUM_QUIZZES; quiz++)
+            total += grades[student][quiz];
+        printf("%3d     %3d\n", total, total / NUM_QUIZZES);
+    }
+
+    printf("\nQuiz  Average  High  Low\n");
+    for (quiz = 0; quiz < NUM_QUIZZES; quiz++) {
+        printf("%3d     ", quiz + 1);
+        total = 0;
+        high = 0;
+        low = 100;
+        for (student = 0; student < NUM_STUDENTS; student++) {
+            total += grades[student][quiz];
+            if (grades[student][quiz] > high)
+                high = grades[student][quiz];
+            if (grades[student][quiz] < low)
+                low = grades[student][quiz];
+        }
+        printf("%3d    %3d   %3d\n", total / NUM_STUDENTS, high, low);
+    }
+
+
+}
 
 
 // 求数组的最大值和最小值，返回值在maxValue和minValue
@@ -123,17 +170,62 @@ void FindCommon(int* a, int* b, int n) {
     }
 }
 
+/**
+ * 合并两个有序数组
+ * 给定含有n个元素的两个有序数组a和b。合并两个数组中的元素到整型数组c，要求去除重复元素并保持c有序。
+ * @param a
+ * @param b
+ * @param c
+ * @param n
+ */
+void Merge(int *a, int *b, int *c, int n){
+    int i = 0 ;
+    int j = 0 ;
+    int k = 0 ;
+
+    while (i < n && j < n)
+    {
+        if (a[i] < b[j])// 如果a的元素小，则插入a中元素到c
+        {
+            c[k++] = a[i] ;
+            ++i ;
+        }
+        else if (a[i] == b[j])// 如果a和b元素相等，则插入二者皆可，这里插入a
+        {
+            c[k++] = a[i] ;
+            ++i ;
+            ++j ;
+        }
+        else // a[i] > b[j] // 如果b中元素小，则插入b中元素到c
+        {
+            c[k++] = b[j] ;
+            ++j ;
+        }
+    }
+
+    if (i == n) // 若a遍历完毕，处理b中剩下的元素
+    {
+        for (int m = j; m < n; ++m)
+            c[k++] = b[m] ;
+    }
+    else//j == n, 若b遍历完毕，处理a中剩下的元素
+    {
+        for (int m = i; m < n; ++m)
+            c[k++] = a[m] ;
+    }
 
 
+}
 
-int main() {
+
+int main(void) {
 
 //    std::cout << "Hello, World!" << std::endl;
 
 //    int a[3][4]={{1,2,3,4},{5,6,7,8},{9,10,11,12}};
 
     //定义并初始化了数组array
-//    int array[100] = {1, 200 , 3, 4};
+//    int array[100] = {5, 200 , 3, 201};
 
     //分配了长度为100的数组array
 //    int* array = new int[100];
@@ -159,10 +251,15 @@ int main() {
 
 //    std::cout << mSum << std::endl;
 
-    int a[100] = {0, 1, 2, 3, 4};
-    int b[100] = {1, 3, 5, 7, 9};
+//    int a[100] = {0, 1, 2, 3, 4};
+//    int b[100] = {1, 3, 5, 7, 9};
+//    int c[100] = {11, 3, 15, 17, 9};
+//
+//    Merge(a, b, c, 5);
 
-    FindCommon(a, b, 5);
+    studentScoreStatistics();
+
+
 
 
     return 0;
